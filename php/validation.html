@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Data Validation Example</title>
+<style>
+  /* Basic styling */
+  body {
+    font-family: Arial, Helvetica, sans-serif, sans-serif;
+  }
+  label {
+    display: flex;
+    margin-bottom: 5px;
+  }
+  input[type="text"],
+  input[type="password"],
+  input[type="tel"] {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+  }
+  input[type="submit"] {
+    background-color: #43c87f;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+  input[type="submit"]:hover {
+    background-color: #1ae267;
+  }
+  .error {
+    color: rgb(199, 31, 31);
+    font-size: 14px;
+  }
+</style>
+</head>
+<body>
+  <h2>Data Validation Example</h2>
+  <div class="error"></div>
+  <form id="myForm" onsubmit="return validateForm()">
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" required>
+    <span id="nameError" class="error"></span>
+    
+    <label for="email">Email:</label>
+    <input type="text" id="email" name="email" required>
+    <span id="emailError" class="error"></span>
+    
+    <label for="phone">Phone:</label>
+    <input type="tel" id="phone" name="phone" required>
+    <span id="phoneError" class="error"></span>
+    
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="password" required>
+    <span id="passwordError" class="error"></span>
+    
+    <input type="submit" value="Submit">
+  </form>
+
+  <script>
+    function validateForm() {
+      var name = document.getElementById('name').value;
+      var email = document.getElementById('email').value;
+      var phone = document.getElementById('phone').value;
+      var password = document.getElementById('password').value;
+      var nameError = document.getElementById('nameError');
+      var emailError = document.getElementById('emailError');
+      var phoneError = document.getElementById('phoneError');
+      var passwordError = document.getElementById('passwordError');
+      var errorElement = document.querySelector('.error');
+
+      var valid = true;
+
+      // Reset previous error messages
+      nameError.innerHTML = '';
+      emailError.innerHTML = '';
+      phoneError.innerHTML = '';
+      passwordError.innerHTML = '';
+
+      // Name validation
+      if (name.trim() === '') {
+        errorElement.innerHTML += "Name id required <br/>"; 
+        nameError.innerHTML = 'Name is required';
+        valid = false;
+      }
+
+      // Email validation
+      if (!isValidEmail(email)) {
+        errorElement.innerHTML += "Please enter a valid email address <br/>"; 
+        emailError.innerHTML = 'Please enter a valid email address';
+        valid = false;
+      }
+
+      // Phone validation
+      if (!isValidPhoneNumber(phone)) {
+        errorElement.innerHTML += "Please enter a valid phone number <br/>"; 
+        phoneError.innerHTML = 'Please enter a valid phone number';
+        valid = false;
+      }
+
+      // Password validation
+      if (password.length < 6) {
+        errorElement.innerHTML += "NPassword must be at least 6 characters long <br/>"; 
+        passwordError.innerHTML = 'Password must be at least 6 characters long';
+        valid = false;
+      }
+
+      return valid;
+    }
+
+    function isValidEmail(email) {
+      // Simple email validation regex
+      var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return emailRegex.test(email);
+    }
+
+    function isValidPhoneNumber(phone) {
+      // Simple phone number validation regex
+      var phoneRegex = /^\d{10}$/; // assuming 10 digits phone number
+      return phoneRegex.test(phone);
+    }
+  </script>
+</body>
+</html>
